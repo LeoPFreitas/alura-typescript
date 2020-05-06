@@ -1,4 +1,6 @@
-class Negotiations {
+import { Negotiation } from "./Negotiation";
+
+export class Negotiations {
   // é do lispo array que contem objetos negotiation
   // private _negotiations: Array<Negotiation> = [];
   private _negotiations: Negotiation[] = [];
