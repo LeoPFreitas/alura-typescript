@@ -1,0 +1,13 @@
+{
+  "name": "alura-typescript",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "compile": "tsc",
+    "start": "tsc -w"
+  },
+  "devDependencies": {
+    "typescript": "^3.8.3"
+  }
+}
