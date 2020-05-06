@@ -9,6 +9,9 @@
     "server": "lite-server --baseDir=app",
     "start": "concurrently \"npm run watch\" \"npm run server\""
   },
+  "resolutions": {
+    "minimist": "^1.2.3"
+  },
   "devDependencies": {
     "@types/jquery": "^3.3.38",
     "concurrently": "^5.2.0",
