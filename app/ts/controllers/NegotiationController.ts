@@ -18,19 +18,41 @@ export class NegotiationController {
     this._negotiationsView.update(this._negotiations);
   }
 
+  private _diaUtil(data: Date) {
+    return data.getDay() != Days.Sabado && data.getDay() != Days.Domingo;
+  }
+
   adiciona(event: Event) {
     event.preventDefault();
 
+    let data = new Date(this._inputData.val().replace(/-/g, ","));
+    this._diaUtil(data);
+
+    if (!this._diaUtil(data)) {
+      this._messageView.update(
+        "Negocioacoes só podem ser feitas em dias úteis"
+      );
+      return;
+    }
+
     const negotiation = new Negotiation(
-      new Date(this._inputData.val().replace(/-/g, ",")),
+      data,
       parseInt(this._inputQuantity.val()),
       parseFloat(this._inputValue.val())
     );
 
     this._negotiations.adiciona(negotiation);
-
     this._negotiationsView.update(this._negotiations);
-
     this._messageView.update("Negotiation added with success!");
   }
+}
+
+enum Days {
+  Domingo,
+  Segunda,
+  Terca,
+  Quarta,
+  Quinta,
+  Sexta,
+  Sabado,
 }
