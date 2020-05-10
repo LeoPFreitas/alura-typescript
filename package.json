@@ -7,7 +7,7 @@
     "compile": "tsc",
     "watch": "tsc -w",
     "server": "lite-server --baseDir=app",
-    "start": "concurrently \"npm run watch\" \"npm run server\""
+    "start": "concurrently \"npm run watch\" \"npm run server\" \"json-server --watch db.json --port 8080\" "
   },
   "resolutions": {
     "minimist": "^1.2.3"
@@ -15,6 +15,7 @@
   "devDependencies": {
     "@types/jquery": "2.0.42",
     "concurrently": "^5.2.0",
+    "json-server": "^0.16.1",
     "lite-server": "^2.5.4",
     "typescript": "^3.8.3"
   }

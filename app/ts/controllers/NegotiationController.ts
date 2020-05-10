@@ -1,5 +1,5 @@
 import { NegotiationsView, MessageView } from "../views/index";
-import { Negotiations, Negotiation } from "../models/index";
+import { Negotiations, Negotiation, NegotiationParcial } from "../models/index";
 import { domInject } from "../helpers/decorators/index";
 
 export class NegotiationController {
@@ -22,6 +22,27 @@ export class NegotiationController {
 
   private _diaUtil(data: Date) {
     return data.getDay() != Days.Sabado && data.getDay() != Days.Domingo;
+  }
+
+  importData() {
+    function isOk(res: Response) {
+      if (res.ok) {
+        return res;
+      } else {
+        throw new Error(res.statusText);
+      }
+    }
+
+    fetch("http://localhost:8080/data")
+      .then((res) => isOk(res))
+      .then((res) => res.json())
+      .then((dados: NegotiationParcial[]) => {
+        dados
+          .map((dado) => new Negotiation(new Date(), dado.vezes, dado.montante))
+          .forEach((negotiation) => this._negotiations.adiciona(negotiation));
+        this._negotiationsView.update(this._negotiations);
+      })
+      .catch((err) => console.log(err.message));
   }
 
   adiciona(event: Event) {
