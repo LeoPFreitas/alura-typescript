@@ -1,20 +1,21 @@
 import { NegotiationsView, MessageView } from "../views/index";
 import { Negotiations, Negotiation } from "../models/index";
-import { logExecutionTime } from "../helpers/decorators/index";
+import { domInject } from "../helpers/decorators/index";
 
 export class NegotiationController {
+  @domInject("#data")
   private _inputData: JQuery;
+
+  @domInject("#quantity")
   private _inputQuantity: JQuery;
+
+  @domInject("#value")
   private _inputValue: JQuery;
   private _negotiations = new Negotiations();
   private _negotiationsView = new NegotiationsView("#negotiationsView");
   private _messageView = new MessageView("#messageView");
 
   constructor() {
-    this._inputData = $("#data");
-    this._inputQuantity = $("#quantity");
-    this._inputValue = $("#value");
-
     // renderiza a tabela assim que carregar
     this._negotiationsView.update(this._negotiations);
   }
@@ -23,7 +24,6 @@ export class NegotiationController {
     return data.getDay() != Days.Sabado && data.getDay() != Days.Domingo;
   }
 
-  @logExecutionTime()
   adiciona(event: Event) {
     event.preventDefault();
 
