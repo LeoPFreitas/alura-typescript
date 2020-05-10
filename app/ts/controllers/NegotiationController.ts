@@ -1,5 +1,6 @@
 import { NegotiationsView, MessageView } from "../views/index";
 import { Negotiations, Negotiation } from "../models/index";
+import { logExecutionTime } from "../helpers/decorators/index";
 
 export class NegotiationController {
   private _inputData: JQuery;
@@ -22,6 +23,7 @@ export class NegotiationController {
     return data.getDay() != Days.Sabado && data.getDay() != Days.Domingo;
   }
 
+  @logExecutionTime()
   adiciona(event: Event) {
     event.preventDefault();
 
