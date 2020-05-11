@@ -1,6 +1,6 @@
 import { NegotiationsView, MessageView } from "../views/index";
 import { Negotiations, Negotiation, NegotiationParcial } from "../models/index";
-import { domInject } from "../helpers/decorators/index";
+import { domInject, throttle } from "../helpers/decorators/index";
 
 export class NegotiationController {
   @domInject("#data")
@@ -24,6 +24,7 @@ export class NegotiationController {
     return data.getDay() != Days.Sabado && data.getDay() != Days.Domingo;
   }
 
+  @throttle(500)
   importData() {
     function isOk(res: Response) {
       if (res.ok) {
@@ -45,9 +46,8 @@ export class NegotiationController {
       .catch((err) => console.log(err.message));
   }
 
-  adiciona(event: Event) {
-    event.preventDefault();
-
+  @throttle(500)
+  adiciona() {
     let data = new Date(this._inputData.val().replace(/-/g, ","));
     this._diaUtil(data);
 
