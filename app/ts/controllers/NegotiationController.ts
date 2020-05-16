@@ -1,6 +1,7 @@
 import { NegotiationsView, MessageView } from "../views/index";
 import { Negotiations, Negotiation, NegotiationParcial } from "../models/index";
 import { domInject, throttle } from "../helpers/decorators/index";
+import { NegotiationService, handlerFunction } from "../services/index";
 
 export class NegotiationController {
   @domInject("#data")
@@ -11,9 +12,12 @@ export class NegotiationController {
 
   @domInject("#value")
   private _inputValue: JQuery;
+
   private _negotiations = new Negotiations();
   private _negotiationsView = new NegotiationsView("#negotiationsView");
   private _messageView = new MessageView("#messageView");
+
+  private _negotiationService = new NegotiationService();
 
   constructor() {
     // renderiza a tabela assim que carregar
@@ -26,24 +30,23 @@ export class NegotiationController {
 
   @throttle(500)
   importData() {
-    function isOk(res: Response) {
+    const isOk: handlerFunction = (res: Response) => {
       if (res.ok) {
         return res;
       } else {
         throw new Error(res.statusText);
       }
-    }
+    };
 
-    fetch("http://localhost:8080/data")
-      .then((res) => isOk(res))
-      .then((res) => res.json())
-      .then((dados: NegotiationParcial[]) => {
-        dados
-          .map((dado) => new Negotiation(new Date(), dado.vezes, dado.montante))
-          .forEach((negotiation) => this._negotiations.adiciona(negotiation));
+    this._negotiationService
+      .getNegotiation(isOk)
+      .then((negotiations) => {
+        negotiations.forEach((negotiation) =>
+          this._negotiations.adiciona(negotiation)
+        );
         this._negotiationsView.update(this._negotiations);
       })
-      .catch((err) => console.log(err.message));
+      .catch((err) => console.log(err));
   }
 
   @throttle(500)
