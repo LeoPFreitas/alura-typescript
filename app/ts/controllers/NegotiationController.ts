@@ -41,10 +41,16 @@ export class NegotiationController {
 
     this._negotiationService
       .getNegotiation(isOk)
-      .then((negotiations) => {
-        negotiations.forEach((negotiation) =>
-          this._negotiations.adiciona(negotiation)
-        );
+      .then((NegotiationsToImport) => {
+        const negotiationImported = this._negotiations.toArray();
+
+        NegotiationsToImport.filter(
+          (negotiation) =>
+            !negotiationImported.some((imported) =>
+              negotiation.isEqual(imported)
+            )
+        ).forEach((negotiation) => this._negotiations.adiciona(negotiation));
+
         this._negotiationsView.update(this._negotiations);
       })
       .catch((err) => console.log(err));

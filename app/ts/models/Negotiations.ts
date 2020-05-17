@@ -1,7 +1,8 @@
 import { Imprimivel } from "./Imprimivel";
 import { Negotiation } from "./Negotiation";
+import { Comparable } from "./Comparable";
 
-export class Negotiations implements Imprimivel {
+export class Negotiations implements Imprimivel, Comparable<Negotiations> {
   private _negotiations: Negotiation[] = [];
 
   adiciona(negotiation: Negotiation): void {
@@ -15,5 +16,12 @@ export class Negotiations implements Imprimivel {
   toText(): void {
     console.log("Impressao");
     console.log(JSON.stringify(this._negotiations));
+  }
+
+  isEqual(negotiations: Negotiations): boolean {
+    return (
+      JSON.stringify(this._negotiations) ==
+      JSON.stringify(negotiations.toArray())
+    );
   }
 }
