@@ -1,8 +1,7 @@
+import { Imprimivel } from "./Imprimivel";
 import { Negotiation } from "./Negotiation";
 
-export class Negotiations {
-  // é do lispo array que contem objetos negotiation
-  // private _negotiations: Array<Negotiation> = [];
+export class Negotiations implements Imprimivel {
   private _negotiations: Negotiation[] = [];
 
   adiciona(negotiation: Negotiation): void {
@@ -11,5 +10,10 @@ export class Negotiations {
 
   toArray(): Negotiation[] {
     return ([] as Negotiation[]).concat(this._negotiations);
+  }
+
+  toText(): void {
+    console.log("Impressao");
+    console.log(JSON.stringify(this._negotiations));
   }
 }

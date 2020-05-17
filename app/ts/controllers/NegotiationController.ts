@@ -2,6 +2,7 @@ import { NegotiationsView, MessageView } from "../views/index";
 import { Negotiations, Negotiation, NegotiationParcial } from "../models/index";
 import { domInject, throttle } from "../helpers/decorators/index";
 import { NegotiationService, handlerFunction } from "../services/index";
+import { imprime } from "../helpers/index";
 
 export class NegotiationController {
   @domInject("#data")
@@ -68,6 +69,9 @@ export class NegotiationController {
     );
 
     this._negotiations.adiciona(negotiation);
+
+    imprime(negotiation, this._negotiations);
+
     this._negotiationsView.update(this._negotiations);
     this._messageView.update("Negotiation added with success!");
   }
