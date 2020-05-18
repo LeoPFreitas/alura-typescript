@@ -53,7 +53,9 @@ export class NegotiationController {
 
         this._negotiationsView.update(this._negotiations);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        this._messageView.update(err.message);
+      });
   }
 
   @throttle(500)
